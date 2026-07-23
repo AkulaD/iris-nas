@@ -18,8 +18,11 @@ if (!$file || !file_exists($file['physical_path'])) {
 }
 
 $thumb_dir = __DIR__ . '/../thumbs';
+
 if (!file_exists($thumb_dir)) {
-    mkdir($thumb_dir, 0777, true);
+    if (!@mkdir($thumb_dir, 0775, true)) {
+        die("Gagal membuat folder thumbs. Cek permission di Ubuntu.");
+    }
 }
 
 $thumb_filename = $thumb_dir . '/' . $id . '.jpg';
@@ -27,23 +30,25 @@ $thumb_filename = $thumb_dir . '/' . $id . '.jpg';
 if (strpos($file['mime_type'], 'video/') === 0) {
     if (!file_exists($thumb_filename)) {
         $video_path = $file['physical_path'];
-        $ffmpeg_path = "ffmpeg";
-        $cmd = "$ffmpeg_path -i " . escapeshellarg($video_path) . " -ss 00:00:01 -vframes 1 " . escapeshellarg($thumb_filename) . " 2>&1";
+        $ffmpeg_path = "/usr/bin/ffmpeg"; 
+        
+        $cmd = escapeshellcmd($ffmpeg_path) . " -y -i " . escapeshellarg($video_path) . " -ss 00:00:01 -vframes 1 " . escapeshellarg($thumb_filename) . " 2>&1";
         
         $output = [];
         $return_var = 0;
         exec($cmd, $output, $return_var);
         
         if ($return_var !== 0) {
-            die("FFmpeg Error: " . implode("<br>", $output));
+            die("FFmpeg Error (Code $return_var): " . implode("<br>", $output));
         }
     }
 
     if (file_exists($thumb_filename)) {
         header("Content-Type: image/jpeg");
+        header("Cache-Control: no-cache, must-revalidate"); 
         readfile($thumb_filename);
     } else {
-        die("Thumbnail gagal dibuat.");
+        die("Thumbnail gagal dibuat meski FFmpeg tidak error.");
     }
 } elseif (strpos($file['mime_type'], 'image/') === 0) {
     header("Content-Type: " . $file['mime_type']);
