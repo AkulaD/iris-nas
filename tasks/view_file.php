@@ -1,8 +1,5 @@
 <?php
-$host = 'localhost';
-$db   = 'iris_nas';
-$user = 'root';
-$pass = '';
+include 'config_user.php';
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
