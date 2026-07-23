@@ -5,9 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const audioSpeed = document.getElementById("audio-speed");
 
     if (video) {
-        videoSpeed.addEventListener("change", function () {
-            video.playbackRate = parseFloat(this.value);
-        });
+        if (videoSpeed) {
+            videoSpeed.addEventListener("change", function () {
+                video.playbackRate = parseFloat(this.value);
+            });
+        }
 
         video.addEventListener("dblclick", function (e) {
             const rect = video.getBoundingClientRect();
@@ -46,47 +48,38 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             lastTouchTime = now;
         }, { passive: false });
-
-        window.addEventListener("keydown", function (e) {
-            if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT" || document.activeElement.tagName === "TEXTAREA") return;
-
-            if (e.key === "ArrowRight") {
-                e.preventDefault();
-                video.currentTime = Math.min(video.duration, video.currentTime + 10);
-            } else if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                video.currentTime = Math.max(0, video.currentTime - 10);
-            } else if (e.key === " ") {
-                e.preventDefault();
-                if (video.paused) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
-            }
-        });
     }
 
     if (audio) {
-        audioSpeed.addEventListener("change", function () {
-            audio.playbackRate = parseFloat(this.value);
-        });
+        if (audioSpeed) {
+            audioSpeed.addEventListener("change", function () {
+                audio.playbackRate = parseFloat(this.value);
+            });
+        }
+    }
 
+    if (video || audio) {
         window.addEventListener("keydown", function (e) {
-            if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT" || document.activeElement.tagName === "TEXTAREA") return;
+            if (document.activeElement.tagName === "INPUT" || 
+                document.activeElement.tagName === "SELECT" || 
+                document.activeElement.tagName === "TEXTAREA") {
+                return;
+            }
+
+            const activeMedia = video ? video : audio;
 
             if (e.key === "ArrowRight") {
                 e.preventDefault();
-                audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+                activeMedia.currentTime = Math.min(activeMedia.duration, activeMedia.currentTime + 10);
             } else if (e.key === "ArrowLeft") {
                 e.preventDefault();
-                audio.currentTime = Math.max(0, audio.currentTime - 10);
+                activeMedia.currentTime = Math.max(0, activeMedia.currentTime - 10);
             } else if (e.key === " ") {
                 e.preventDefault();
-                if (audio.paused) {
-                    audio.play();
+                if (activeMedia.paused) {
+                    activeMedia.play();
                 } else {
-                    audio.pause();
+                    activeMedia.pause();
                 }
             }
         });

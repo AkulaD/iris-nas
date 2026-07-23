@@ -35,6 +35,11 @@ $streamUrl = "view_file.php?id=" . urlencode($id) . "&stream=1";
 if (isset($_GET['stream'])) {
     $filePath = $file['physical_path'];
     if (file_exists($filePath)) {
+        
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+        
         if (strpos($mime, 'image/') === 0) {
             header("Content-Type: $mime");
             header('Content-Length: ' . filesize($filePath));
@@ -48,7 +53,7 @@ if (isset($_GET['stream'])) {
         
         $fm = @fopen($filePath, 'rb');
         if (!$fm) {
-            header("HTTP/1.1 505 Internal Server Error");
+            header("HTTP/1.1 500 Internal Server Error");
             exit;
         }
         
