@@ -43,10 +43,6 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                     <button type="submit" class="btn btn-primary w-100 py-2 fw-normal btn-login">Sign in</button>
                 </form>
-                <div class="text-center mt-4">
-                    <span class="text-muted small">No account? </span>
-                    <a href="register.php" class="small text-decoration-none fw-normal text-primary">Create one!</a>
-                </div>
             </div>
         </div>
     </div>
