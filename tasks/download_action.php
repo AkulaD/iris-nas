@@ -32,11 +32,15 @@ if (!empty($items) && !empty($user_id)) {
         header('Pragma: public');
         header('Content-Length: ' . filesize($file['physical_path']));
         
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
         ob_clean();
         flush();
-        
         readfile($file['physical_path']);
         exit;
+
     } else {
         if (!empty($token)) {
             setcookie("download_token", $token, time() + 300, "/");

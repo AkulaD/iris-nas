@@ -4,8 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once '../config.php';
 
-// PERUBAHAN DI SINI: Mengubah drive D: Windows menjadi path mount point Linux
-define('BASE_STORAGE_PATH', DIRECTORY_SEPARATOR . 'iris_nas');
+define('BASE_STORAGE_PATH', 'D:' . DIRECTORY_SEPARATOR . 'IRIS_NAS_Data');
 
 function generateUniqueId() {
     return 'file_' . bin2hex(random_bytes(16));
