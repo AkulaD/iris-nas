@@ -600,7 +600,10 @@ document.addEventListener("DOMContentLoaded", function() {
                             location.reload();
                         } else {
                             const token = data.share_token;
-                            const fullLink = window.location.origin + '/iris-nas/view.php?id=' + token;
+                            // Ubuntu Server
+                            const fullLink = window.location.origin + '/iris_nas/view.php?id=' + token;
+                            // Windows 11
+                            // const fullLink = window.location.origin + '/iris-nas/view.php?id=' + token;
 
                             selectedEl.dataset.shareToken = token;
                             selectedEl.dataset.shareLink = fullLink;

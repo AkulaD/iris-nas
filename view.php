@@ -81,7 +81,7 @@ function include_layout_error($title, $msg) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRIS-NAS - Bagikan Publik</title>
+    <title>IRIS-NAS - Share</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
@@ -98,7 +98,7 @@ function include_layout_error($title, $msg) {
 <nav class="navbar public-navbar py-3 mb-4 shadow-sm">
     <div class="container">
         <span class="navbar-brand mb-0 h1 fw-bold text-primary d-flex align-items-center gap-2">
-            <i class="bi bi-hdd-network-fill"></i> IRIS-NAS Shared Hub
+            <i class="bi bi-hdd-network-fill"></i> IRIS-NAS
         </span>
         <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill small"><i class="bi bi-shield-check me-1"></i> Tautan Publik Aman</span>
     </div>
