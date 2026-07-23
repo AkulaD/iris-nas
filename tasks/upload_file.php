@@ -55,11 +55,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         $id = generateUniqueId();
         $type = 'file';
         
-        $mime_type = $file['type']; 
+        $mime_type = !empty($file['type']) ? $file['type'] : 'application/octet-stream'; 
+
         if (function_exists('mime_content_type')) {
-            $detected_mime = mime_content_type($final_path);
+            $detected_mime = @mime_content_type($final_path);
             if ($detected_mime) {
                 $mime_type = $detected_mime;
+            }
+        } 
+
+        if (class_exists('finfo')) {
+            $finfo = @finfo_open(FILEINFO_MIME_TYPE);
+            if ($finfo) {
+                $detected_mime_finfo = @finfo_file($finfo, $final_path);
+                if ($detected_mime_finfo) {
+                    $mime_type = $detected_mime_finfo;
+                }
+                finfo_close($finfo);
             }
         }
         
